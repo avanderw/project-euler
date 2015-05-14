@@ -20,5 +20,6 @@ public class ProjectEuler {
         System.out.println(new Problem13());
         System.out.println(new Problem14());
         System.out.println(new Problem15());
+        System.out.println(new Problem16());
     }   
 }
