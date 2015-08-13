@@ -6,6 +6,7 @@
 package net.avdw.stats;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -176,27 +177,35 @@ public class NelsonRules {
         Double upperBound = mean + twoStdDev;
         Double lowerBound = mean - twoStdDev;
         Integer count = 0;
+        Integer sameSideCount = 0;
         Boolean positive = Boolean.TRUE;
 
         for (Double s : sample) {
+            if (s > upperBound || s < lowerBound) {
+                count++;
+            } else {
+                count = 0;
+            }
+
             if (s > upperBound) {
-                if (positive || count == 2) {
-                    count++;
+                if (positive || sameSideCount == 2) {
+                    sameSideCount++;
                 } else {
-                    count = 1;
+                    sameSideCount = 1;
                 }
                 positive = Boolean.TRUE;
             }
+
             if (s < lowerBound) {
-                if (!positive || count == 2) {
-                    count++;
+                if (!positive || sameSideCount == 2) {
+                    sameSideCount++;
                 } else {
-                    count = 1;
+                    sameSideCount = 1;
                 }
                 positive = Boolean.FALSE;
             }
 
-            if (count == 3) {
+            if (count == 3 && sameSideCount >= 2) {
                 isPass = Boolean.FALSE;
                 break;
             }
@@ -220,28 +229,35 @@ public class NelsonRules {
         Double upperBound = mean + stdDev;
         Double lowerBound = mean - stdDev;
         Integer count = 0;
+        Integer sameSideCount = 0;
         Boolean positive = Boolean.TRUE;
 
         for (Double s : sample) {
-            if (s > upperBound) {
-                if (positive || count == 4) {
-                    count++;
+            if (s > upperBound || s < lowerBound) {
+                count++;
+            } else {
+                count = 0;
+            }
+            
+             if (s > upperBound) {
+                if (positive || sameSideCount == 4) {
+                    sameSideCount++;
                 } else {
-                    count = 1;
+                    sameSideCount = 1;
                 }
                 positive = Boolean.TRUE;
             }
 
             if (s < lowerBound) {
-                if (!positive || count == 4) {
-                    count++;
+                if (!positive || sameSideCount == 4) {
+                    sameSideCount++;
                 } else {
-                    count = 1;
+                    sameSideCount = 1;
                 }
                 positive = Boolean.FALSE;
             }
 
-            if (count == 5) {
+            if (count == 5 && sameSideCount >= 4) {
                 isPass = Boolean.FALSE;
                 break;
             }
@@ -295,25 +311,12 @@ public class NelsonRules {
         Double upperBound = mean + stdDev;
         Double lowerBound = mean - stdDev;
         Integer count = 0;
-        Boolean positive = Boolean.TRUE;
 
         for (Double s : sample) {
             if (s < upperBound && s > lowerBound) {
                 count = 0;
             } else {
-                if (positive && s - mean < 0) {
-                    count++;
-                    positive = Boolean.FALSE;
-                } else {
-                    count = 0;
-                }
-                
-                if (!positive && s - mean > 0) {
-                    count++;
-                    positive = Boolean.TRUE;
-                } else { 
-                    count = 0;
-                }
+                count++;
             }
 
             if (count == 8) {
@@ -333,13 +336,30 @@ public class NelsonRules {
             sample.add(Math.random());
         }
 
-        System.out.println("Rule 1: " + passRule1(sample));
-        System.out.println("Rule 2: " + passRule2(sample));
-        System.out.println("Rule 3: " + passRule3(sample));
-        System.out.println("Rule 4: " + passRule4(sample));
-        System.out.println("Rule 5: " + passRule5(sample));
-        System.out.println("Rule 6: " + passRule6(sample));
-        System.out.println("Rule 7: " + passRule7(sample));
-        System.out.println("Rule 8: " + passRule8(sample));
+        System.out.println("Positive\nRule 1: " + passRule1(Arrays.asList(13., 18., 13., 14., 13., 16., 14., 21., 16., 13., 18., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println("Rule 2: " + passRule2(Arrays.asList(13., 18., 16., 16., 16., 16., 16., 21., 16., 13., 13., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println("Rule 3: " + passRule3(Arrays.asList(1., 2., 3., 4., 5., 3., 4., 4., 8., 6., 5., 4., 9., 8., 7., 5., 6., 1.)));
+        System.out.println("Rule 4: " + passRule4(Arrays.asList(3., 9., 3., 9., 3., 9., 3., 9., 3., 9., 3., 9., 3., 2., 3., 9., 3., 9.)));
+        System.out.println("Rule 5: " + passRule5(Arrays.asList(27., 28., 15., 14., 13., 16., 14., 21., 16., 13., 18., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println("Rule 5: " + passRule5(Arrays.asList(3., 27., 3., 14., 13., 16., 14., 21., 16., 13., 18., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println("Rule 6: " + passRule6(Arrays.asList(21., 21., 21., 21., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.)));
+        System.out.println("Rule 7: " + passRule7(Arrays.asList(21., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 21., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.)));
+        System.out.println("Rule 8: " + passRule8(Arrays.asList(20., 19., 21., 19., 19., 21., 19., 21., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.)));
+
+        System.out.println("\nNegative\nRule 1: " + !passRule1(Arrays.asList(29., 18., 13., 14., 13., 16., 14., 21., 16., 13., 18., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println("Rule 1: " + !passRule1(Arrays.asList(-29., 18., 13., 14., 13., 16., 14., 21., 16., 13., 18., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println("Rule 2: " + !passRule2(Arrays.asList(13., 18., 16., 16., 16., 16., 16., 21., 16., 16., 18., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println("Rule 2: " + !passRule2(Arrays.asList(13., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println("Rule 3: " + !passRule3(Arrays.asList(1., 2., 3., 4., 5., 6., 7., 4., 8., 6., 5., 4., 9., 8., 7., 5., 6., 1.)));
+        System.out.println("Rule 3: " + !passRule3(Arrays.asList(7., 6., 5., 4., 3., 2., 1., 1., 8., 6., 5., 4., 9., 8., 7., 5., 6., 1.)));
+        System.out.println("Rule 4: " + !passRule4(Arrays.asList(3., 9., 3., 9., 3., 9., 3., 9., 3., 9., 3., 9., 3., 9., 3., 9., 3., 9.)));
+        System.out.println("Rule 5: " + !passRule5(Arrays.asList(27., 28., 5., 14., 13., 16., 14., 21., 16., 13., 18., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println("Rule 5: " + !passRule5(Arrays.asList(3., 3., 27., 14., 13., 16., 14., 21., 16., 13., 18., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println("Rule 5: " + !passRule5(Arrays.asList(27., 3., 3., 14., 13., 16., 14., 21., 16., 13., 18., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println("Rule 6: " + !passRule6(Arrays.asList(21., 21., 21., 21., 21., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.)));
+        System.out.println("Rule 6: " + !passRule6(Arrays.asList(21., 21., 21., 21., 19., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.)));
+        System.out.println("Rule 6: " + !passRule6(Arrays.asList(19., 21., 21., 21., 21., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.)));
+        System.out.println("Rule 7: " + !passRule7(Arrays.asList(21., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.)));
+        System.out.println("Rule 8: " + !passRule8(Arrays.asList(21., 19., 21., 19., 19., 21., 19., 21., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.)));
     }
 }
