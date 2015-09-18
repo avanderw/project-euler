@@ -330,13 +330,23 @@ public class NelsonRules {
 
     public static void main(String[] args) {
         List<Double> sample = new ArrayList<>();
-        Integer sampleSize = 100;
+        Integer sampleSize = 20;
 
         for (int i = 0; i < sampleSize; i++) {
-            sample.add(Math.random());
+            sample.add(Math.random()*10);
         }
 
-        System.out.println("Positive\nRule 1: " + passRule1(Arrays.asList(13., 18., 13., 14., 13., 16., 14., 21., 16., 13., 18., 13., 14., 13., 16., 14., 21., 13.)));
+        System.out.println(sample);
+        System.out.println("Random 1: " + passRule1(sample));
+        System.out.println("Random 2: " + passRule2(sample));
+        System.out.println("Random 3: " + passRule3(sample));
+        System.out.println("Random 4: " + passRule4(sample));
+        System.out.println("Random 5: " + passRule5(sample));
+        System.out.println("Random 6: " + passRule6(sample));
+        System.out.println("Random 7: " + passRule7(sample));
+        System.out.println("Random 8: " + passRule8(sample));
+        
+        System.out.println("\nPositive\nRule 1: " + passRule1(Arrays.asList(13., 18., 13., 14., 13., 16., 14., 21., 16., 13., 18., 13., 14., 13., 16., 14., 21., 13.)));
         System.out.println("Rule 2: " + passRule2(Arrays.asList(13., 18., 16., 16., 16., 16., 16., 21., 16., 13., 13., 13., 14., 13., 16., 14., 21., 13.)));
         System.out.println("Rule 3: " + passRule3(Arrays.asList(1., 2., 3., 4., 5., 3., 4., 4., 8., 6., 5., 4., 9., 8., 7., 5., 6., 1.)));
         System.out.println("Rule 4: " + passRule4(Arrays.asList(3., 9., 3., 9., 3., 9., 3., 9., 3., 9., 3., 9., 3., 2., 3., 9., 3., 9.)));

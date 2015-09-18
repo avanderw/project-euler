@@ -1,5 +1,9 @@
 package project.euler.problem;
 
+import java.util.HashMap;
+import java.util.Map;
+import project.euler.Utilities;
+
 /**
  * Let d(n) be defined as the sum of proper divisors of n (numbers less than n which divide evenly into n).
  * If d(a) = b and d(b) = a, where a ≠ b, then a and b are an amicable pair and each of a and b are called amicable numbers.
@@ -12,14 +16,28 @@ package project.euler.problem;
  */
 public class Problem21 extends AProblem {
 
+    private final Map<Long, Long> amicableMap = new HashMap<>();
+
     @Override
     public String answer() {
-        
-        return "";
+        for (Long i = 0L; i < 10000; i++) {
+            amicableMap.put(i, Utilities.sumProperDividors(i));
+        }
+
+        Long sum = 0L;
+        for (Long i = 2L; i < 10000; i++) {
+            if (isAmicable(i)) {
+                sum += i;
+            }
+        }
+
+        return sum + "";
     }
+
     
-    private Long sumProperDividors(Long number) {
-        return 0L;
+
+    private Boolean isAmicable(Long i) {
+        return i.equals(amicableMap.get(amicableMap.get(i))) && !i.equals(amicableMap.get(i));
     }
 
 }

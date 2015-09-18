@@ -20,4 +20,19 @@ public class Utilities {
         }
         return divisors;
     }
+    
+    public static Long sumProperDividors(Long number) {
+        Integer divisor = 1;
+        Integer halfNumber = (int) Math.ceil(number / 2);
+        Long sum = 0L;
+
+        while (divisor <= halfNumber) {
+            if (number % divisor == 0) {
+                sum += divisor;
+            }
+            divisor++;
+        }
+
+        return sum;
+    }
 }
