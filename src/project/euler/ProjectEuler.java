@@ -5,7 +5,7 @@ import project.euler.problem.*;
 public class ProjectEuler {
 
     public static void main(String[] args) {
-        System.out.println(new Problem01());
+        /*System.out.println(new Problem01());
         System.out.println(new Problem02());
         System.out.println(new Problem03());
         System.out.println(new Problem04());
@@ -28,5 +28,8 @@ public class ProjectEuler {
         System.out.println(new Problem21());
         System.out.println(new Problem22());
         System.out.println(new Problem23());
+        System.out.println(new Problem24());
+        System.out.println(new Problem25());*/
+        System.out.println(new Problem26());
     }   
 }
